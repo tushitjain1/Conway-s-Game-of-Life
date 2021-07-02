@@ -1,4 +1,4 @@
-#John Conway's Game of Life
+#Second version#John Conway's Game of Life
 from graphics import *
 import time
 import random
@@ -28,9 +28,26 @@ class Cell:
 
 def main():
     win  = GraphWin("Game of Life", 1001,1001)
-    window = GraphWin("Menu", 400,400)
+    window = GraphWin("Menu", 300,200)
     win.setBackground(color_rgb(0,0,0))
-    window.setBackground(color_rgb(0,0,0))
+    window.setBackground(color_rgb(22, 160, 133))
+    box = Rectangle(Point(50,25),Point(250,85))
+    box.setFill(color_rgb(149, 165, 166))
+    box.draw(window)
+    box2 = Rectangle(Point(50,120),Point(250,175))
+    box2.setFill(color_rgb(149, 165, 166))
+    box2.draw(window)
+    start = Text(Point(150,53), "Start")
+    start.setFace('helvetica')
+    start.setSize(30)
+    start.setTextColor(color_rgb(0,0,0))
+    start.draw(window)
+    preset = Text(Point(150,143), "Preset")
+    preset.setFace('helvetica')
+    preset.setSize(30)
+    preset.setTextColor(color_rgb(0,0,0))
+    preset.draw(window)
+
     x = 0
     y = 0
     for i in range(0,51):
@@ -66,30 +83,28 @@ def main():
         if clickpoint != None:
             for i in range(50):
                 for j in range(50):
-                    if inside(clickpoint,list_of_cells[j][i]):
-                        live_cells.append(list_of_cells[j][i])
-                        k = list_of_cells[j][i]
-                        k.setFill(color_rgb(0,255,0))
-                        k.draw(win)
+                    try:
+                        if inside(clickpoint,list_of_cells[j][i]):
+                            live_cells.append(list_of_cells[j][i])
+                            k = list_of_cells[j][i]
+                            k.setFill(color_rgb(0,255,0))
+                            k.draw(win)
+                    except GraphicsError:
+                        pass
         if to_start!= None:
-            # time.sleep(0.5)
-            if inside(to_start,Rectangle(Point(0,0),Point(399,399))):
+            if inside(to_start,box):
                 for i in live_cells:
                     i.undraw()
-                # time.sleep(0.5)
-
                 for i in range(25000):
                     sim = simulating(live_cells,list_of_cells)
-                    # copy = [i for i in sim]
                     for x in live_cells:
                         x.undraw()
-                    # time.sleep(0.5)
                     for x in sim:
                         live_cells = [i for i in sim]
-                        x.setFill(color_rgb(0,255,0))
+                        x.setFill(color_rgb(0,254,0))
                         x.draw(win)
                     copy = [i for i in sim]
-                    time.sleep(0.1)
+                    time.sleep(0.03)
     win.close()
     window.close()
 
